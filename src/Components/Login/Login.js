@@ -1,4 +1,3 @@
-// Login.js
 import React, { useState } from 'react';
 import { View, Image, TextInput, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -6,11 +5,9 @@ import { useNavigation } from '@react-navigation/native';
 const LoginScreen = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const navigation = useNavigation(); // Use useNavigation aqui
+    const navigation = useNavigation();
 
     const handleLogin = () => {
-        // Adicione a lógica de autenticação aqui
-        // Navegue para a tela da API independentemente do resultado da autenticação
         navigation.navigate('WeatherApi', { apiKey: '3d39b3bf7c8b446193924520232412' });
     };
 

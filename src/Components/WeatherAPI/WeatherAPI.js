@@ -3,18 +3,30 @@ import { View, Image, TextInput, TouchableOpacity, Text, StyleSheet } from 'reac
 
 const WeatherAPI = () => {
     const [location, setLocation] = useState('');
+    const [celsius, setCelsius] = useState('');
+    const [fahrenheit, setFahrenheit] = useState('');
 
-    const handleSearch = () => {
+    const handleSearch = async () => {
         if (location.trim() === '') {
             alert('Digite um local!');
         } else {
-            // Adicione a lógica de busca na API de previsão do tempo aqui
-            alert(`Buscando previsão para ${location}`);
+            try {
+                const apiKey = '3d39b3bf7c8b446193924520232412';
+                const response = await fetch(`http://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${location}`);
+                const data = await response.json();
+
+                setCelsius(JSON.stringify(data.current.temp_c));
+                setFahrenheit(JSON.stringify(data.current.temp_f));
+            } catch (error) {
+                console.error('Erro na chamada da API:', error);
+            }
         }
     };
 
     const handleClear = () => {
         setLocation('');
+        setCelsius('');
+        setFahrenheit('');
     };
 
     return (
@@ -34,6 +46,13 @@ const WeatherAPI = () => {
             <TouchableOpacity style={styles.button} onPress={handleClear}>
                 <Text style={styles.buttonText}>Limpar</Text>
             </TouchableOpacity>
+
+            {celsius !== '' && fahrenheit !== '' && (
+                <View style={styles.resultContainer}>
+                    <Text style={styles.resultText}>Temperatura em Celsius: {celsius}</Text>
+                    <Text style={styles.resultText}>Temperatura em Fahrenheit: {fahrenheit}</Text>
+                </View>
+            )}
         </View>
     );
 };
@@ -41,7 +60,7 @@ const WeatherAPI = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center', // Remova justifyContent: 'center'
+        alignItems: 'center',
     },
     backgroundImage: {
         flex: 1,
@@ -58,7 +77,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(255, 255, 255, 0.5)',
         paddingHorizontal: 10,
         marginBottom: 10,
-        marginTop: 100, // Ajuste conforme necessário para posicionar o TextInput
+        marginTop: 100,
     },
     button: {
         backgroundColor: 'green',
@@ -69,6 +88,16 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         color: 'white',
+        textAlign: 'center',
+    },
+    resultContainer: {
+        marginTop: 20,
+        padding: 10,
+        backgroundColor: 'rgba(255, 255, 255, 0.8)',
+        borderRadius: 10,
+    },
+    resultText: {
+        color: 'black',
         textAlign: 'center',
     },
 });

@@ -1,10 +1,9 @@
-// Navegacao.js
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import Login from '../Login/Login.js';
 import WeatherAPI from '../WeatherAPI/WeatherAPI.js';
-import { useNavigation } from '@react-navigation/native'; // Importe useNavigation
+import { useNavigation } from '@react-navigation/native';
 
 const Stack = createStackNavigator();
 
